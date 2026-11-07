@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <title>Sózsheber - Admin Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; background: #f9f9f9; }
+        .container { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h2 { margin-top: 0; }
+        form { margin-bottom: 20px; display: flex; gap: 10px; }
+        input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px 15px; background: #a3ff12; border: 1px solid #000; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        .del-btn { background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Sózsheber - Admin Panel</h2>
+
+    <!-- Jańa sóz qosıw -->
+    <form action="/admin" method="POST">
+        <input type="text" name="word" placeholder="Jańa sóz kiritiń..." required>
+        <button type="submit">+ Qosıw</button>
+    </form>
+
+    <!-- Izlew -->
+    <form action="/admin" method="GET">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Sózdi izlew...">
+        <button type="submit">Izlew</button>
+    </form>
+
+    <!-- Sózler dizimi -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Sóz</th>
+                <th>Ámel</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in words %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td><b>{{ item.word }}</b></td>
+                <td>
+                    <form action="/admin/delete/{{ item.id }}" method="POST" style="margin:0;">
+                        <button type="submit" class="del-btn">Óshiriw</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">Sóz tabılmadı.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
